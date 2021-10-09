@@ -1,0 +1,23 @@
+{
+  "name": "Hustlers_HackX",
+  "version": "1.0.0",
+  "description": "Our Submission for HackX 2021 organized by Scaler Academy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "cd client && npm start",
+    "server": "cd server && npx nodemon server.js",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hustlers-hackx/Hustlers_HackX.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hustlers-hackx/Hustlers_HackX/issues"
+  },
+  "homepage": "https://github.com/hustlers-hackx/Hustlers_HackX#readme"
+}
