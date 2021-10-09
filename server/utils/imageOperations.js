@@ -1,4 +1,4 @@
-const cloudinary = require('../config/cloudinary_config')
+const cloudinary = require('../config/cloudinary.config')
 
 module.exports = {
 

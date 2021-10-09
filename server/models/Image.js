@@ -36,16 +36,6 @@ ImageSchema.methods = {
             return self._id
         })
         .catch(() => false)
-    },
-    delete: async function(){
-        return deleteImage(this.public_id)
-        .then(({result}) => {
-            if(result == 'ok'){
-                return true
-            }
-            return false
-        })
-        .catch(() => false)
     }
 }
 

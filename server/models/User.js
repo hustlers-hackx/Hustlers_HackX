@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     },
     bio :{
         type: String,
-        required: "Bio is required."
+        default : ""
     },
     image: {
         type : mongoose.Schema.Types.ObjectId,

@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/hustlers-hackx/Hustlers_HackX/issues"
   },
-  "homepage": "https://github.com/hustlers-hackx/Hustlers_HackX#readme"
+  "homepage": "https://github.com/hustlers-hackx/Hustlers_HackX#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

@@ -8,7 +8,7 @@ module.exports = {
     },
 
     addHackathon : async (req,res) => {
-
+        
     },
 
     addFriend : async (req,res) => {

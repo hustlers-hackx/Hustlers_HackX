@@ -13,7 +13,7 @@ const jwtOptions = {
 }
 
 passport.use(
-    'user',
+    'local',
     new JWTStrategy(jwtOptions,(jwt_payload,done) => {
         try{
             User.findOne({email : jwt_payload.id})

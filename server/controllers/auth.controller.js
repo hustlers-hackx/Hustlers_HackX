@@ -11,12 +11,14 @@ const registerUser = async (req,res) => {
     try{
         await temp_user.save()
         return res.status(200).json({
+            err: false,
             message: "Successfully signed up!"
         })
     }
-    catch(err){
+    catch(error){
         return res.status(400).json({
-            error: getError(err)
+            err: true,
+            message: getError(error)
         })
     }
 }
@@ -28,19 +30,25 @@ const loginUser = async (req,res) => {
             if(user){
                 if(!user.authenticate(req.body.password)){
                     res.status(400).json({
-                        error : "Password does not match"
-                     })
+                        err: true,
+                        message : "Password does not match"
+                    })
                 }else{
-                    const token = jwt.sign({id : user.user},jwtSecret.secret)
+                    const token = jwt.sign({id : user.email},jwtSecret)
+                    let data = user._doc
+                    delete data["hashed_password"]
                     return res.status(200).json({
                         auth : true,
                         token : token,
-                        message: "Successfully logged in!"
+                        data,
+                        expires : new Date(new Date().getTime() + 2628000000),
+                        msg: "Successfully logged in!"
                     })
                 }
             }else{
                 res.status(400).json({
-                   error : "User Doesn't Exist"
+                    err: true,
+                    message : "User Doesn't Exist"
                 })
             }
         })
@@ -63,7 +71,7 @@ const githubSigninVerify = async (req,res) => {
         User.findOne({email : email})
         .then(user => {
             if(user){
-                const token = jwt.sign({id : user.user},jwtSecret.secret)
+                const token = jwt.sign({id : user.user},jwtSecret)
                 let url = `${process.env.FRONTEND_URI}/#/?token=${encodeURIComponent(token)}&user=${encodeURIComponent(user.user)}`
                 return  res.redirect(url)
             }else{
