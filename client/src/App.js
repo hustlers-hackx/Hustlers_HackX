@@ -20,7 +20,8 @@ function App() {
             <Route path="/profile/:id" exact component={Profile}/>
             <Route path="/friends" exact component={Friends}/>
             <Route exact path="/Login" component={Login}/>  
-            <Route exact path="/" component={Home}/>  
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/profile" component={{Profile}}/>  
           </Switch>
         </Layout>
       </BrowserRouter>
