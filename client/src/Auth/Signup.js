@@ -3,8 +3,6 @@ import { Grid,Paper, Avatar, TextField, Button, Typography } from '@material-ui/
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { BrowserRouter as Router,useHistory, Route, Link } from "react-router-dom";
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export const Signup = () => {    
     const paperStyle={padding :"20px",height:'70vh',width:350, margin:"80px auto",backgroundColor:"	#F8F8FF"}

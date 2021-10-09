@@ -16,11 +16,11 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Switch>
-            <Route path="/" exact component={Signup}/>
+            <Route path="/Signup" exact component={Signup}/>
             <Route path="/profile/:id" exact component={Profile}/>
             <Route path="/friends" exact component={Friends}/>
             <Route exact path="/Login" component={Login}/>  
-            <Route exact path="/Signup" component={Home}/>  
+            <Route exact path="/" component={Home}/>  
           </Switch>
         </Layout>
       </BrowserRouter>
