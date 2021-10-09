@@ -2,7 +2,23 @@ import {constants} from '../constants/index'
 
 const initialState = {
     jwtToken: '',
-    user : {}
+    user : {
+        email : "sugarbae051@gmail.com",
+        friends : [
+            {
+                name : "Hello1",
+                email : "testuser@gmail.com"
+            },
+            {
+                name : "Hello1",
+                email : "testuser@gmail.com"
+            },
+            {
+                name : "Hello1",
+                email : "testuser@gmail.com"
+            },
+        ]
+    }
 }
 
 const authReducer = (state = initialState,action) => {

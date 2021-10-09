@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const [hackathons, setHackathons] = useState();
+  const [hackathons, setHackathons] = useState([]);
 
   useEffect(() => {
     const getHackathons = async () => {
@@ -63,7 +63,7 @@ const Home = () => {
           },
         })
         .then((hackathons) => {
-            console.log(hackathons);
+          console.log(hackathons);
           setHackathons(hackathons.data.data);
         })
         .catch((err) => {

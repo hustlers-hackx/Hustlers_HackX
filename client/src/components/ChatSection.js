@@ -4,7 +4,7 @@ import { useChat } from '../hooks/useChat'
 export const ChatSection = (props) => {
 
     const email = "sugarbae051@gmail.com"
-    const [msgs,addMsg] = useChat(props.sender)
+    const [msgs,addMsg] = useChat(props.sender.email)
 
     return (
         <div>
