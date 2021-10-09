@@ -6,6 +6,9 @@ import Layout from "./components/Layout";
 import Home from "./components/Home"; 
 import Profile from "./components/Profile";
 import { Friends } from './components/Friends';
+import {Login} from "./Auth/Login"
+import {Signup} from "./Auth/Signup"
+
 
 function App() {
   return (
@@ -13,9 +16,11 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Switch>
-            <Route path="/" exact component={Home}/>
+            <Route path="/" exact component={Signup}/>
             <Route path="/profile/:id" exact component={Profile}/>
             <Route path="/friends" exact component={Friends}/>
+            <Route exact path="/Login" component={Login}/>  
+            <Route exact path="/Signup" component={Home}/>  
           </Switch>
         </Layout>
       </BrowserRouter>

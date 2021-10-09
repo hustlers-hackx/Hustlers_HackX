@@ -63,8 +63,8 @@ const Home = () => {
           },
         })
         .then((hackathons) => {
-          console.log(hackathons);
-          setHackathons(hackathons.data.data);
+            console.log(hackathons);
+            setHackathons(hackathons.data);
         })
         .catch((err) => {
           console.log(err);
