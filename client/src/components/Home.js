@@ -12,7 +12,9 @@ import {
   import Card from "@material-ui/core/Card";
   import CardContent from "@material-ui/core/CardContent";
   import Typography from "@material-ui/core/Typography";
-  
+  import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
@@ -41,14 +43,15 @@ import {
   const Home = () => {
     const classes = useStyles();
     const [hackathons, setHackathons] = useState([]);
-  
+    const [uid, setUid] = useState("6161dd267db4ed4428efc596");
+
     useEffect(() => {
       const getHackathons = async () => {
         await axios
           .get("http://localhost:4000/api/v1/hackathons", {
             headers: {
               Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3R1c2VyQGdtYWlsLmNvbSIsImlhdCI6MTYzMzc3MjYxMn0.mZwBehL3RmY72OlPHoMsf2pNlekHUuokbNjma5-fTvc",
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImppbmVzaG1vZGk5OUBnbWFpbC5jb20iLCJpYXQiOjE2MzM4MDM1Nzh9.DNygnVwiqmg0Ky3O0oSm3bp9UGqxda7n8fCglIbFG_U",
             },
           })
           .then((hackathons) => {
@@ -62,9 +65,38 @@ import {
   
       getHackathons();
     }, []);
-  
+   
+    const hackathonAdd = async (hid) => {
+        axios.get(`http://localhost:4000/api/v1/hackathons/${hid}`, {
+            headers : {
+                Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImppbmVzaG1vZGk5OUBnbWFpbC5jb20iLCJpYXQiOjE2MzM4MDM1Nzh9.DNygnVwiqmg0Ky3O0oSm3bp9UGqxda7n8fCglIbFG_U"
+            }
+        }).then(async (res) => {
+            for (var i=0;i<res.data.data.participants.length;i++) {
+                if (res.data.data.participants[i]._id === uid) {
+                    toast.error("Already Registered"); 
+                    return 0;
+                }
+            }
+            await axios.post(`http://localhost:4000/api/v1/users/${uid}/hackathons/${hid}?participating=true`, {}, {
+                headers : {
+                    Authorization:
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImppbmVzaG1vZGk5OUBnbWFpbC5jb20iLCJpYXQiOjE2MzM4MDM1Nzh9.DNygnVwiqmg0Ky3O0oSm3bp9UGqxda7n8fCglIbFG_U"
+                }
+            }).then((res) => {
+                toast.success("Registerd Successfully");
+            }).catch((err) => {
+                console.log(err);
+            });
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
     return (
       <>
+      <ToastContainer/>
         <Container className={classes.homePage}>
           <Grid container>
             {hackathons.map((hackathon) => {
@@ -102,7 +134,9 @@ import {
                               Start Date : {hackathon.start_date.slice(0,10)}
                           </Typography>
                           <div className={classes.buttonDiv}>
-                              <Button variant="contained" fullWidth color="primary" className={classes.registerButton}>Register Now</Button>
+                              <Button variant="contained" fullWidth color="primary" className={classes.registerButton} onClick={() => {
+                                  hackathonAdd(hackathon._id)
+                              }}>Register Now</Button>
                           </div>
                           </CardContent>
                         </div>
