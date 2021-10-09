@@ -3,6 +3,7 @@ const getError = require('../utils/dbErrorHandler')
 const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.SECRET_KEY
 const { getGithubEmailfromCode } = require('../utils/githubClient')
+const { safeUser } = require('../utils/safeObject')
 
 const clientURL = process.env.FRONTEND_URI
 
@@ -35,12 +36,10 @@ const loginUser = async (req,res) => {
                     })
                 }else{
                     const token = jwt.sign({id : user.email},jwtSecret)
-                    let data = user._doc
-                    delete data["hashed_password"]
                     return res.status(200).json({
                         auth : true,
                         token : token,
-                        data,
+                        data : safeUser(user),
                         expires : new Date(new Date().getTime() + 2628000000),
                         msg: "Successfully logged in!"
                     })

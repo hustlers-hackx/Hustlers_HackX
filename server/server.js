@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const authRouter = require('./routes/auth.router');
 const hackathonRouter = require('./routes/hackathon.router');
+const userRouter = require('./routes/user.router')
 
 const port = process.env.PORT || 5000
 const mongo_url = process.env.MONGO_URL
@@ -22,6 +23,7 @@ app.use(cors({
 
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/hackathons',hackathonRouter)
+app.use('/api/v1/users',userRouter)
 
 app.listen(port, ()=>{
     console.log(`Server Running on ${port}`)

@@ -52,6 +52,12 @@ module.exports = {
                 }, 
                 {new : true}
             )
+            if(!hackathon){
+                return res.status(400).json({
+                    err: true,
+                    message: "No such hackathon exists."
+                })
+            }
             await hackathon.save()
             return res.status(200).json({
                 err: false,

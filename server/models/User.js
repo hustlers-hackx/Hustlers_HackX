@@ -94,7 +94,7 @@ UserSchema.methods = {
     addHackathon : function(hackathon,participating){
         this.hackathons.push({
             hackathonId : hackathon,
-            participating
+            participating : participating || false
         })
     }   
 }
