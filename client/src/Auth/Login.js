@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { Grid,Paper, Avatar, TextField, Button, Typography } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -14,7 +15,7 @@ const Login=()=>{
     const btnstyle2 = {backgroundColor:"#24292f","margin-bottom":'15px'}
 
     function formsignin () {
-        axios.post('/api/v1/auth')
+        axios.post('/api/v1/auth/login')
         .then(function(response) {
             console.log(response);
         })
