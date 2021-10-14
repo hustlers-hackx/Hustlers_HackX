@@ -31,7 +31,22 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    skills: [String],
+    skills: [
+        {
+            type : String,
+            trim: true
+        }
+    ],
+    phone:{
+        type: String,
+        trim: true,
+        match: [/^[0-9]{10}$/,"Contact Number is invalid."]
+    },
+    githubUserName:{
+        type: String,
+        match: [/[-a-zA-Z0-9()@:%_+.~#?&//=]*/, 'Github Username is invalid.'],
+        trim: true
+    },
     hackathons : [
         {
             hackathonId : {

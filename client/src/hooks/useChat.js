@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react';
 
 export const useChat = (sender_id) => {
 
-  let doc_id = getDocumentId(sender_id)
+  //let doc_id = getDocumentId(sender_id)
+
+  let doc_id = "test"
 
   const docRef = doc(db,'chat',doc_id)  
-  const [msgs,setMsgs] = useState([])
+  const [msgs,setMsgs] = useState(undefined)
 
   const subscribe = () => onSnapshot(docRef,(doc) => {
     console.log(doc.data())

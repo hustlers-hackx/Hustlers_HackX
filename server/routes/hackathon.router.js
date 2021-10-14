@@ -8,7 +8,6 @@ const { authenticate } = require('../middleware/authUser')
 
 router.route("/")
 .get(
-    authenticate,
     hackathonCtrl.getHackathons
 )
 .post(
