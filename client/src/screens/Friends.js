@@ -1,7 +1,8 @@
 import React, { useState } from "react"
-import { Flex } from '@chakra-ui/react' 
+import { Flex, Text } from '@chakra-ui/react' 
 import { FriendList } from "../components/molecules/FriendList"
 import { Chat } from "../components/elements/Chat"
+import { getUserFriends } from "../redux/helpers/authHelpers"
 
 const data = [
     {
@@ -62,10 +63,13 @@ const data = [
     },
 ]
 
-export const Friends = () => {
+export const Friends = (props) => {
 
-    const[friends,setFriends] = useState(data)
-    const[currFriend,setCurrFriend] = useState(data[0])
+    const[friends,setFriends] = useState(getUserFriends())
+    const[currFriend,setCurrFriend] = useState(
+        props.location.state? props.location.state.currFriend : 
+        friends.length > 0 ? friends[0] : undefined
+    )
 
     const openChat = (friend) => {
         setCurrFriend(friend)
@@ -77,17 +81,29 @@ export const Friends = () => {
             p={5}
             width="100%"
             height="92vh"
-        >
-            <Flex
-                flex="0.25"
+        >   
+            {friends.length === 0?
+            <Text
+                my={20}
+                fontSize="2rem"
+                color="green"
+                w="100%"
+                textAlign="center"
             >
-                <FriendList friends={friends} open={openChat}/>
-            </Flex>
-            <Flex
-                flex="0.75"
-            >
-                <Chat friend={currFriend}/>
-            </Flex>
+                You do not seem to have any friends yet.
+            </Text> :
+            <>
+                <Flex
+                    flex="0.25"
+                >
+                    <FriendList friends={friends} open={openChat}/>
+                </Flex>
+                <Flex
+                    flex="0.75"
+                >
+                    <Chat friend={currFriend}/>
+                </Flex>
+            </>}
         </Flex>
     )
 }

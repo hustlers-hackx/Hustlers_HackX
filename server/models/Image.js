@@ -24,6 +24,16 @@ const ImageSchema = mongoose.Schema({
     }
 })
 
+ImageSchema.pre('deleteOne', { document: true, query: false }, async function(next){
+    let response = await this.delete()
+    if(response){
+        next()
+    }else{
+        let err = new Error('Could not delete image.');
+        next(err)
+    }
+})
+
 ImageSchema.methods = {
     upload: async function(id,image,type){
         this.parent_id = id
@@ -34,6 +44,18 @@ ImageSchema.methods = {
             self.url = url,
             self.public_id = public_id
             return self._id
+        })
+        .catch((error) => {
+            return false
+        })
+    },
+    delete: async function(){
+        return deleteImage(this.public_id)
+        .then(({result}) => {
+            if(result == 'ok'){
+                return true
+            }
+            return false
         })
         .catch(() => false)
     }

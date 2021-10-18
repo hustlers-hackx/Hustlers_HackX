@@ -40,12 +40,14 @@ const UserSchema = mongoose.Schema({
     phone:{
         type: String,
         trim: true,
-        match: [/^[0-9]{10}$/,"Contact Number is invalid."]
+        match: [/^[0-9]{10}$/,"Contact Number is invalid."],
+        default : ""
     },
     githubUserName:{
         type: String,
         match: [/[-a-zA-Z0-9()@:%_+.~#?&//=]*/, 'Github Username is invalid.'],
-        trim: true
+        trim: true,
+        default : ""
     },
     hackathons : [
         {
@@ -106,12 +108,35 @@ UserSchema.methods = {
     addFriend : function(id){
         this.friends.push(id)
     },
-    addHackathon : function(hackathon,participating){
-        this.hackathons.push({
-            hackathonId : hackathon,
-            participating : participating || false
+    removeFriend : function(id){
+        this.friends = this.friends.filter(e => e._id.toString() !== id.toString())
+    },
+    hasHackathon : function(hackathon){
+        return this.hackathons.findIndex(e => e.hackathonId._id.toString() === hackathon)
+    },
+    addHackathon : function(hackathon,participating=false){
+        let index = this.hasHackathon(hackathon)
+        if(index === -1){
+            this.hackathons.push({
+                hackathonId : hackathon,
+                participating : participating || false
+            })
+        }else{
+            this.hackathons[index].participating = participating
+        }
+    }, 
+    removeHackathon : function(id){
+        let out
+        this.hackathons = this.hackathons.filter(e => {
+            if(e.hackathonId._id.toString() !== id){
+                return true
+            }else{
+                out = e
+                return false
+            }
         })
-    }   
+        return out
+    }
 }
 
 module.exports = mongoose.model('User',UserSchema)

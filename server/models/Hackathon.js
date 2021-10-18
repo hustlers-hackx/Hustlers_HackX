@@ -47,8 +47,19 @@ HackathonSchema.methods = {
     incrementCount : function(){
         this.participantCount++
     },
+    decrementCount : function(){
+        this.participantCount--
+    },
+    hasParticipant : function(participant){
+        return this.participants.find(e => e._id.toString() === participant.toString())
+    },
     addParticipant : function(participant){
-        this.participants.push(participant)
+        if(!this.hasParticipant(participant)){
+            this.participants.push(participant)
+        }
+    },
+    removeParticipant : function(participant){
+        this.participants = this.participants.filter(e => e._id.toString() !== participant.toString())
     }
 }
 

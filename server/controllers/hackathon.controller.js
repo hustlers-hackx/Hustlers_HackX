@@ -1,7 +1,7 @@
 const Hackathon = require('../models/Hackathon')
 const Image = require('../models/Image')
 const getError = require('../utils/dbErrorHandler')
-const {hackathonPopulate} = require('../utils/populateObjects')
+const {hackathonsPopulate,hackathonPopulate} = require('../utils/populateObjects')
 
 module.exports = {
 
@@ -92,7 +92,7 @@ module.exports = {
             }
             return res.status(200).json({
                 err: false,
-                data : hackathon
+                data : [hackathon]
             })
         }catch(error){
             console.log(error)
@@ -107,7 +107,7 @@ module.exports = {
         try{
             let hackathons = await Hackathon
                 .find({})
-                .populate(hackathonPopulate)
+                .populate(hackathonsPopulate)
             if(!hackathons){
                 return res.status(400).json({
                     err: true,

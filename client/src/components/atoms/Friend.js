@@ -1,7 +1,9 @@
 import React from "react"
 import { Flex, Text, Avatar} from '@chakra-ui/react' 
+import defaultAvatar from "../../assets/defaultAvatar.png"
 
 export const Friend = (props) => {
+
     return(
         <Flex
             bg="navy"
@@ -15,7 +17,7 @@ export const Friend = (props) => {
         >
             <Avatar 
                 size="lg"
-                src={props.data.image.url}
+                src={props.data.image? props.data.image.url : defaultAvatar}
             />
             <Flex
                 ml={5}

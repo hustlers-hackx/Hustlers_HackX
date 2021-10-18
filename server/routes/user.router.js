@@ -7,6 +7,9 @@ const userCtrl = require('../controllers/user.controller')
 const { authenticate } = require('../middleware/authUser')
 
 router.route("/:id")
+.get(
+    userCtrl.getUser
+)
 .patch(
     authenticate,
     userCtrl.updateUser
@@ -14,14 +17,18 @@ router.route("/:id")
 
 router.route("/:id/friends/:friendId")
 .post(
-    authenticate,
     userCtrl.addFriend
+)
+.delete(
+    userCtrl.removeFriend
 )
 
 router.route("/:id/hackathons/:hackathonId")
 .post(
-    authenticate,
     userCtrl.addHackathon
+)
+.delete(
+    userCtrl.removeHackathon
 )
 
 module.exports = router

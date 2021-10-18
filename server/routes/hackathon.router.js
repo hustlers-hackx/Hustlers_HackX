@@ -17,7 +17,6 @@ router.route("/")
 
 router.route("/:id")
 .get(
-    authenticate,
     hackathonCtrl.getHackathonbyId
 )
 .patch(

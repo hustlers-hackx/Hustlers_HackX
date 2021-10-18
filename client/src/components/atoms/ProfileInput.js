@@ -31,6 +31,8 @@ export const CustomInput = (props) => {
                 resize="none"
                 rounded="none"
                 py={3}
+                bg="green"
+                color="navy"
                 w="80%"
                 border="white solid 2px"
                 onChange={props.input.onChange}
@@ -54,6 +56,8 @@ export const CustomInput = (props) => {
                     type = {getType(props.input.label)}
                     fontSize="1.3rem"
                     rounded="none"
+                    bg="green"
+                    color="navy"
                     py={6}
                     border="white solid 2px"
                     value={props.input.value}
@@ -63,11 +67,11 @@ export const CustomInput = (props) => {
                     fontSize="1.3rem"
                     children="Add" 
                     cursor="pointer"
-                    bg="green"
-                    color="navy"
+                    bg="navy"
+                    color="green"
                     py={6}
                     rounded="none"
-                    border="white solid 2px"
+                    border="solid green 2px"
                     onClick={props.input.addSkill}
                 />}
             </InputGroup>}

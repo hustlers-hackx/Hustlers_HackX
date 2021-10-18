@@ -6,25 +6,25 @@ import { useEffect, useState } from 'react';
 
 export const useChat = (sender_id) => {
 
-  //let doc_id = getDocumentId(sender_id)
-
-  let doc_id = "test"
-
+  let doc_id = getDocumentId(sender_id)
+  let unsub
   const docRef = doc(db,'chat',doc_id)  
   const [msgs,setMsgs] = useState(undefined)
+  
+  const subscribe = () => {
+    unsub = onSnapshot(docRef,(doc) => {
+     setMsgs(prev => doc.data()? doc.data().msgs || [] : [])
+    })
+  }
 
-  const subscribe = () => onSnapshot(docRef,(doc) => {
-    console.log(doc.data())
-    setMsgs(prev => doc.data().msgs)
-  })
+  const unsubscribe = () => {
+    unsub()
+  }
 
   const getMsgs = async () => {
     let doc = await getDoc(docRef)
-    if(doc.exists()){
-      setMsgs(prev => doc.data().msgs || [])
-      subscribe()
-    }
-    console.log(msgs)
+    setMsgs(prev => doc.data()? doc.data().msgs || [] : [])
+    subscribe()
   }
 
   useEffect(() => {
@@ -32,7 +32,8 @@ export const useChat = (sender_id) => {
       await getMsgs()
     }
     temp()
-  },[])
+    return () => unsubscribe()
+  },[doc_id])
  
   const addMsg = async (msg) => {
     if(msgs.length === 0){

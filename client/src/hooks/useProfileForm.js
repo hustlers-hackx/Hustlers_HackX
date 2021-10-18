@@ -1,28 +1,60 @@
 import { useState } from "react";
+import { getUser, setUser } from "../redux/helpers/authHelpers";
+import { request } from "../utils/axiosUtilities"
+import defaultAvatar from "../assets/defaultAvatar.png"
 
 export const useProfileForm = () => {
 
-    let user =  {
-        "name": "Vraj Parikh",
-        "bio": "Web Developer",
-        "email": "sugarbae051@gmail.com",
-        "skills": [
-            "React",
-            "Node"
-        ],
-        image : {
-            url : 'https://bit.ly/dan-abramov'
-        },
-        phone: '9999999999',
-        githubUserName : 'vraj291'
-    }
+    const user = getUser()
 
     const[name,setName] = useState(user.name)
     const[bio,setBio] = useState(user.bio)
     const[skills,setSkills] = useState(user.skills)
-    const[image,setImage] = useState(user.image.url)
+    const[image,setImage] = useState(user.image? user.image.url : defaultAvatar)
     const[phone,setPhone] = useState(user.phone)
     const[github,setGithub] = useState(user.githubUserName)
+
+    const getUpdateObject = () => {
+        let data = {}
+        if(name !== user.name){
+            data.name = name
+        }
+        if(bio !== user.bio){
+            data.bio = bio
+        }
+        if(phone !== user.phone){
+            data.phone = phone
+        }
+        if(github !== user.github){
+            data.githubUserName = github
+        }
+        if(image !== defaultAvatar && image !== user.image){
+            data.image = image
+        }
+        data.skills = skills
+        return data
+    }
+
+    const update = async () => {
+        try{
+            let {data} = await request(
+                `/users/${user._id}`,
+                'patch',
+                getUpdateObject()
+            )
+            setUser(data.data)
+            return {
+                err : false,
+                message : "Profile Updated Successfully."
+            }
+        }catch(error){
+            console.log(error.response.data.message)
+            return {
+                err: true,
+                message : error.response.data.message
+            }
+        }
+    }
 
     return {
         name : {
@@ -67,6 +99,7 @@ export const useProfileForm = () => {
                     setSkills(prev => [...prev.filter(e => e !== value)])
                 }
             }
-        }
+        },
+        update
     }
 }

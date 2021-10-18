@@ -1,6 +1,7 @@
 import React from "react";
-import {Flex,Spacer,Text,Link} from '@chakra-ui/react'
+import {Flex,Spacer,Text,Link, Button} from '@chakra-ui/react'
 import { useHistory } from "react-router";
+import { logOut } from "../../redux/helpers/authHelpers";
 
 const links = [
     {
@@ -23,7 +24,8 @@ const links = [
 
 export const NavBar = () => {
 
-    const path= useHistory().location.pathname
+    const history = useHistory()
+    const path = history.location.pathname
 
     return(
         <Flex
@@ -35,7 +37,6 @@ export const NavBar = () => {
             alignItems='center'
         >
             <Text
-                as="a"
                 fontWeight="500"
                 fontSize="1.7rem"
                 cursor="pointer"
@@ -58,8 +59,10 @@ export const NavBar = () => {
                         bg={path === link.href? 'navy' : 'green'}
                         color={path === link.href? 'green' : 'navy'}
                         rounded="md"
-                        href={link.href}
                         transition="all 0.3s"
+                        onClick={() => {
+                            history.push(link.href)
+                        }}
                         _hover={{
                             bg: 'navy',
                             color: "green"
@@ -68,6 +71,18 @@ export const NavBar = () => {
                         {link.name}
                     </Link>
                 ))}
+                <Button
+                    fontSize="1.2rem"
+                    _hover={{
+                        transform : "scale(1.05,1.05)"
+                    }}
+                    onClick={() => {
+                        logOut()
+                        history.push('/')
+                    }}
+                >
+                    Log Out
+                </Button>
             </Flex>
         </Flex>
     )

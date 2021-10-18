@@ -5,9 +5,12 @@ import { LoginForm } from '../components/elements/LoginForm'
 
 export const Login = (props) => {
 
-    const[currComponent,setCurrComponent] = useState(props.location.state.mode)
+    const[success,setSuccess] = useState(props.location.state? props.location.state.msg : undefined)
+
+    const[currComponent,setCurrComponent] = useState(props.location.state? props.location.state.mode : true)
 
     const toggle = () => {
+        setSuccess(undefined)
         setCurrComponent(prev => !prev)
     }
 
@@ -17,7 +20,11 @@ export const Login = (props) => {
             bg="navy"
         >   
             {currComponent? 
-                <LoginForm toggle={toggle}/> : 
+                <LoginForm 
+                    toggle={toggle}
+                    successMsg={success}
+                    clearSuccess={() => setSuccess(undefined)}
+                /> : 
                 <RegisterForm toggle={toggle}/>
             }
         </Center>

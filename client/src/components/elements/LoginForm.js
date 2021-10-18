@@ -4,10 +4,13 @@ import { Flex, Text, Button } from '@chakra-ui/react'
 import { CustomButton } from "../atoms/Button"
 import { CustomInput } from "../atoms/LoginInput"
 import { ArrowForwardIcon } from '@chakra-ui/icons'
+import { login } from "../../redux/helpers/authHelpers"
+import { useHistory } from "react-router";
 
-export const LoginForm = ({toggle}) => {
-    
-    const{email,password} = useLoginForm()
+export const LoginForm = ({toggle,successMsg,clearSuccess}) => {
+
+    const{email,password,errors,validate} = useLoginForm()
+    const history = useHistory()
 
     return(
         <Flex
@@ -42,12 +45,40 @@ export const LoginForm = ({toggle}) => {
             >
                 Login as an Existing User
             </Text>
+            {successMsg && 
+                <Text
+                    fontSize="1rem"
+                    color="red"
+                >
+                    {successMsg}
+                </Text>
+            }
+            {errors.value.length > 0 && errors.value.map(error => 
+                <Text
+                    fontSize="1rem"
+                    color="red"
+                >
+                    {error}
+                </Text>
+            )}
             <CustomInput input={email}/>
             <CustomInput input={password}/>
             <CustomButton
                 textColor = "green"
                 bgColor = "navy"
                 text = "Login"
+                onClick = {async () => {
+                    if(successMsg) clearSuccess()
+                    errors.clear()
+                    if(validate(true)){
+                        let response = await login(email.value,password.value)
+                        if(!response.err){
+                            history.push('/profile')
+                        }else{
+                            errors.add(response.message)
+                        }
+                    }
+                }}
             />
         </Flex>
     )

@@ -1,10 +1,11 @@
 import React from "react"
 import { Flex, Text } from "@chakra-ui/react"
 import { calculateTime } from "../../utils/timeUtilities"
+import { getUser } from "../../redux/helpers/authHelpers"
 
 const getAlignment = (user) => {
-    const email = "sugarbae051@gmail.com"
-    return user === email? "flex-end" : "flex-start"
+    const id = getUser()._id
+    return user === id? "flex-end" : "flex-start"
 }
 
 export const ChatMessage = ({msg}) => {
@@ -18,7 +19,7 @@ export const ChatMessage = ({msg}) => {
             m={5}
             width="max-content"
             rounded="3xl"
-            alignSelf={getAlignment(msg.sender)}
+            alignSelf={getAlignment(msg.id)}
         >
             <Text
                 fontSize="1.2rem"

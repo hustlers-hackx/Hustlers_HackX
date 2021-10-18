@@ -74,7 +74,10 @@ export const Skills = (props) => {
                     label: "Add Skill",
                     value: skill,
                     onChange: (event) => setSkill(event.target.value),
-                    addSkill: () => props.input.add(skill)
+                    addSkill: () => {
+                        props.input.add(skill)
+                        setSkill("")
+                    }
                 }}
             />
         </Flex>

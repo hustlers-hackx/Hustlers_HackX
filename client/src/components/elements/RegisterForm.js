@@ -4,10 +4,13 @@ import { Flex, Text, Button } from '@chakra-ui/react'
 import { CustomButton } from "../atoms/Button"
 import { CustomInput } from "../atoms/LoginInput"
 import { ArrowBackIcon } from '@chakra-ui/icons'
+import { useHistory } from "react-router";
+import { register } from '../../redux/helpers/authHelpers'
 
 export const RegisterForm = ({toggle}) => {
     
-    const{name,email,password,conpass} = useLoginForm()
+    const{name,email,password,conpass,errors,validate} = useLoginForm()
+    const history = useHistory()
 
     return(
         <Flex
@@ -42,6 +45,14 @@ export const RegisterForm = ({toggle}) => {
             >
                 Register as a New User
             </Text>
+            {errors.value.length > 0 && errors.value.map(error => 
+                <Text
+                    fontSize="1rem"
+                    color="red"
+                >
+                    {error}
+                </Text>
+            )}
             <CustomInput input={name}/>
             <CustomInput input={email}/>
             <CustomInput input={password}/>
@@ -50,6 +61,21 @@ export const RegisterForm = ({toggle}) => {
                 textColor = "green"
                 bgColor = "navy"
                 text = "Register"
+                onClick = {async () => {
+                    errors.clear()
+                    if(validate(false)){
+                        let response = await register(name.value,email.value,password.value)
+                        if(!response.err){
+                            history.push('/')
+                            history.push('/login',{
+                                mode: true,
+                                msg : "Successfully registered as a new user."
+                            })
+                        }else{
+                            errors.add(response.message)
+                        }
+                    }
+                }}
             />
         </Flex>
     )

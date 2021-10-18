@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const jwtSecret = process.env.SECRET_KEY
 const { getGithubEmailfromCode } = require('../utils/githubClient')
 const { safeUser } = require('../utils/safeObject')
+const { userPopulate } = require('../utils/populateObjects')
 
 const clientURL = process.env.FRONTEND_URI
 
@@ -17,6 +18,7 @@ const registerUser = async (req,res) => {
         })
     }
     catch(error){
+        console.log(error)
         return res.status(400).json({
             err: true,
             message: getError(error)
@@ -26,7 +28,8 @@ const registerUser = async (req,res) => {
 
 const loginUser = async (req,res) => {
     try{
-        User.findOne({user : req.body.user})
+        User.findOne({email : req.body.email})
+        .populate(userPopulate)
         .then(user => {
             if(user){
                 if(!user.authenticate(req.body.password)){
